@@ -1,2 +1,1 @@
-# Object-oriented-programming-FMI
-Object oriented programming course materials.
+# Материали за курса по обектно ориентирано програмиране 2022/2023.
