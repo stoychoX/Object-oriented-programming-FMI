@@ -97,6 +97,8 @@ int main() {
         std::cout << areas[i] << ": " << std::endl;
 
         printTriangle(arr[i]);
+
+        std::cout << std::endl << std::endl;
     }
     
     delete[] areas, arr;
