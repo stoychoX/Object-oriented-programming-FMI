@@ -7,21 +7,21 @@ struct pair
 	int second;
 };
 
-void readInput(pair& p)
+void readInput(pair &p)
 {
 	std::cin >> p.first;
 	std::cin >> p.second;
 }
 
-bool comparePairs(const pair& p1, const pair& p2)
+bool comparePairs(const pair &p1, const pair &p2)
 {
 	return (p1.first > p2.first || (p1.first == p2.first && p1.second > p2.second));
 }
 
-pair findBiggestPair(const pair* array)
+pair findBiggestPair(const pair *array, size_t N)
 {
-	pair biggestPair = { 0,0 };
-	for (size_t i = 0; i < MAX_SIZE; i++)
+	pair biggestPair = array[0];
+	for (size_t i = 1; i < N; i++)
 	{
 		if (comparePairs(array[i], biggestPair))
 		{
@@ -31,12 +31,12 @@ pair findBiggestPair(const pair* array)
 	return biggestPair;
 }
 
-void selectionSort(pair* array, size_t N)
+void selectionSort(pair *array, size_t N)
 {
 	for (size_t i = 0; i < N - 1; i++)
 	{
 		size_t minIndex = i;
-		for (size_t j = 0; j < N; j++)
+		for (size_t j = i + 1; j < N; j++)
 		{
 			if (comparePairs(array[j], array[minIndex]))
 			{
@@ -63,22 +63,23 @@ int main()
 	}
 	size_t N;
 	std::cin >> N;
-	pair* arrayDynamic = new pair[N];
+	pair *arrayDynamic = new pair[N];
 	for (size_t i = 0; i < N; i++)
 	{
 		readInput(arrayDynamic[i]);
 	}
 	pair biggestPair = findBiggestPair(arrayDynamic, N);
 	std::cout << "(" << biggestPair.first << "," << biggestPair.second << ")";
+	delete[] arrayDynamic;
 	return 0;
 }
 
-//а се създаде структура, която 
-//представлява наредена двойка от цели числа
+// а се създаде структура, която
+// представлява наредена двойка от цели числа
 //.Структурата има полета first и second.Да се реализират съответните функции :
 //
-//Функция, която прочита наредена двойка от стандартния вход
-//Функция, която сравнява наредени двойки.Сравняването става по следния начин :
+// Функция, която прочита наредена двойка от стандартния вход
+// Функция, която сравнява наредени двойки.Сравняването става по следния начин :
 //(a, b) > (c, d) <=> (a > c) || ((a == c) && (b > d))
-//Функция, която приема статичен масив от 100 наредени двойки и връща най - голямата наредена двойка.
-//Функция, която приема динамичен масив от наредени двойки и ги сортира.
+// Функция, която приема статичен масив от 100 наредени двойки и връща най - голямата наредена двойка.
+// Функция, която приема динамичен масив от наредени двойки и ги сортира.
