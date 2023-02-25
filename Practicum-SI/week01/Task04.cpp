@@ -66,6 +66,9 @@ void printScholarsSorted(Student* students, size_t len, double average) {
 			if (students[i].avgGrade > average) {
 				printStudent(students[i]);
 			}
+			else {
+				break;
+			}
 		}
 	}
 	else {
@@ -94,5 +97,5 @@ int main() {
 	Student st2 = { Course::first, "asd", 12347, 3.4 };
 	Student st3 = { Course::third, "asd", 12348, 5.4 };
 	Student scholars[] = { st0, st1, st2, st3 };
-	printScholarsSorted(scholars, 4, 3.0);
+	printScholarsSorted(scholars, 4, 3.6);
 }
