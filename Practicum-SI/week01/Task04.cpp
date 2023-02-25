@@ -49,8 +49,8 @@ double myAbs(double num) {
 void bubbleSortByGrade(Student* students, size_t len) {
 	for (int i = 0; i < len; i++) {
 		for (int j = 0; j < len - i - 1; j++) {
-			if (students[i].avgGrade < students[i + 1].avgGrade) {
-				std::swap(students[i], students[i + 1]);
+			if (students[j].avgGrade < students[j + 1].avgGrade) {
+				std::swap(students[j], students[j + 1]);
 			}
 		}
 	}
@@ -87,4 +87,12 @@ bool initStudent(Student& toInit,const char name[MAX_LEN_NAME],
 		return true;
 	}
 	return false;
+}
+int main() {
+	Student st0 = {Course::first, "asd", 12345, 5.1};
+	Student st1 = { Course::second, "asd", 12346, 3.7};
+	Student st2 = { Course::first, "asd", 12347, 3.4 };
+	Student st3 = { Course::third, "asd", 12348, 5.4 };
+	Student scholars[] = { st0, st1, st2, st3 };
+	printScholarsSorted(scholars, 4, 3.0);
 }
