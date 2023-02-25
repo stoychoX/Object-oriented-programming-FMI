@@ -9,7 +9,7 @@ enum class Course {
 
 //(x64) this struct is always 32 bytes, independent from order of fields, because it has 0 padding bytes
 struct Student {
-	char name[17];
+	char name[16];
 	int fn;
 	Course course;
 	double grade;
@@ -31,7 +31,7 @@ void printStudent(const Student& toPrint) {
 	std::cout << "Grade: " << toPrint.grade << std::endl;
 }
 
-bool initStudent(Student& toInit,char name[17], int facNumber, Course currentCourse, double grade) {
+bool initStudent(Student& toInit,char name[16], int facNumber, Course currentCourse, double grade) {
 	if (name[0] == '\0' || facNumber < 10000 || facNumber > 99999 || grade < 3 || grade > 6) {
 		return false;
 	}
@@ -43,7 +43,7 @@ bool initStudent(Student& toInit,char name[17], int facNumber, Course currentCou
 }
 
 void swapStudents(Student& one, Student& two) {
-	char arr[17];
+	char arr[16];
 	strcpy_s(arr, one.name);
 	strcpy_s(one.name, two.name);
 	strcpy_s(two.name, arr);
