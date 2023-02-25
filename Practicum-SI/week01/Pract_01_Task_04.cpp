@@ -58,7 +58,7 @@ void printStudent(const Student &toPrint)
 
 bool initStudent(Student &toInit, char name[16], int facNumber, Course currentCourse, double grade)
 {
-    return (strlen(name) > MAX_NAME || getNumLen(facNumber) > MAX_FN || (currentCourse != Course::first || currentCourse != Course::second || currentCourse != Course::third || currentCourse != Course::forth) || grade < MIN_GRADE || grade > MAX_GRADE) ? false : (name = toInit.name, facNumber = toInit.fn, currentCourse = toInit.course, grade = toInit.grade, true);
+    return (strlen(name) > MAX_NAME || getNumLen(facNumber) > MAX_FN || (currentCourse != Course::first || currentCourse != Course::second || currentCourse != Course::third || currentCourse != Course::forth) || grade < MIN_GRADE || grade > MAX_GRADE) ? false : (strcpy_s(toInit.name, name), toInit.fn = facNumber, toInit.course = currentCourse, toInit.grade = grade, true);
 }
 
 void sort(Student *students, size_t length)
