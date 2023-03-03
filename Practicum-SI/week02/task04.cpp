@@ -72,15 +72,12 @@ void readDateTime(dateTime& dt, std::ifstream& inFile) {
 void readIP(ipAddress& ip, std::ifstream& inFile) {
     int x = 0;
 
-    for (int i = 3; i >= 1; i--) {
+    for (int i = 3; i >= 0; i--) {
         // Когато записвахме ip адреса го записвахме като интове. Сега просто си го прочитаме обратно.
         inFile >> x;                                    
         ip.p[i] = (unsigned char)(x);                         
         inFile.get();                                   // Пропусни "."
     }
-
-    inFile >> x;
-    ip.p[0] = (unsigned char)(x);
 
     inFile.get();                                      // Пропускаме " "
 }
@@ -161,7 +158,7 @@ void printLog(const log& lg) {
     std::cout << lg.name << " ";
 
     for (int i = 3; i >= 1; i--)
-        std::cout << (unsigned)(lg.ipv4.p[i]) << ":";
+        std::cout << (unsigned)(lg.ipv4.p[i]) << ".";
     
     std::cout << (unsigned)(lg.ipv4.p[0]);
 
