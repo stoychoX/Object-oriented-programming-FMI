@@ -123,8 +123,6 @@ log* readLogs(size_t& size, const char* filePath) {
     if(size == 0)
         return nullptr;
 
-    // Ако пуснете указател, който е различен от nullptr
-    // Вероятността да омажете нещата е реална.
     log* logs = new log[size];
 
     // Отваряме поток 2 пъти един за да видим колко
