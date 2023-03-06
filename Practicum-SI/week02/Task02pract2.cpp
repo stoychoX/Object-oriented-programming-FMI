@@ -1,8 +1,3 @@
-/*  Да се напише функция, която връща
-*   броя на символите във файл,
-*   които са различни от 'a' и 'd'. hint:
-*   Какво прави функцията get()?
-*/
 #include <iostream>
 #include <fstream>
 enum class ErrorStatusIOF {
@@ -31,4 +26,5 @@ int countOfChExcTwoChars(std::ifstream& ifs,
 int main() {
 	std::ifstream readingStream("myFile.txt");
 	std::cout << countOfChExcTwoChars(readingStream, 'a', 'd');
+      readingStream.close();
 }
