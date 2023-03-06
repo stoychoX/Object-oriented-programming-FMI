@@ -1,199 +1,231 @@
-#include<iostream>
-#include<fstream>
-#include<cstring>
+#include <iostream>
+#include <fstream>
+#pragma warning(disable: 4996)
 
-#define LOG_NAME_LEN 16
-#pragma warning (disable : 4996)
-
-union ipAddress {
-    int data;
-    unsigned char p[4];
+union IpAddressV4 {
+	int32_t num = 0;
+	char octets[4];
 };
 
-struct dateTime {
-    int sec;
-    int min;
-    int hrs;
+struct logTime
+{
+	short hour = 0;
+	short minutes = 0;
+	short seconds = 0;
 };
 
-struct log {
-    char name[LOG_NAME_LEN];
-    ipAddress ipv4;
-    dateTime logTime;
+struct login
+{
+	char name[20];
+	IpAddressV4 IpAddress;
+	logTime timeOfLog;
 };
 
-void writeIP(const ipAddress& arg, std::ofstream& outFile) {
-    for (int i = 3; i >= 0; i--)
-        outFile << (int)(arg.p[i]) << ".";
-    outFile << " ";    
+bool WriteLog(const login& toWrite, std::ofstream& outFile)
+{
+	if (!outFile.is_open())
+	{
+		return false;
+	}
+	outFile << toWrite.name << std::endl;
+	outFile << toWrite.IpAddress.num << std::endl;
+	outFile << toWrite.timeOfLog.hour << " " << toWrite.timeOfLog.minutes
+		<< " " << toWrite.timeOfLog.seconds << std::endl;
+	return true;
 }
 
-void writeDateTime(const dateTime& dt, std::ofstream& outFile) {
-    outFile << dt.hrs << ":" << dt.min << ":" << dt.sec;
+login* MergeLogs(login* A, size_t lenA, login* B, size_t lenB)
+{
+	login* allLogs = new login[lenA + lenB];
+	for (size_t i = 0; i < lenA; i++)
+	{
+		allLogs[i] = A[i];
+	}
+	for (size_t i = lenA; i < lenA + lenB; i++)
+	{
+		allLogs[i] = B[i - lenA];
+	}
+	return allLogs;
 }
 
-void writeLog(const log& toWrite, std::ofstream& outFile) {
-    // Първо записваме името
-    outFile << toWrite.name << " ";
-    
-    // След това записваме ip адреса
-    writeIP(toWrite.ipv4, outFile);
+size_t ReadLogs(login* logs, const char* filePath);
+bool WriteLogs(login* newLogs, size_t size, const char* filePath)
+{
+	login* existingLogs = new login[0];
+	int countExistingLogs = ReadLogs(existingLogs, filePath);
 
-    // и датата
-    writeDateTime(toWrite.logTime, outFile);
+	std::ofstream ofs(filePath);
+	if (!ofs.is_open())
+	{
+		delete[] existingLogs;
+		return false;
+	}
 
-    outFile << std::endl;
+	login* allLogs = MergeLogs(newLogs, size, existingLogs, countExistingLogs);
 
-    // Сега моделът е <name> <ip> <hrs>:<mins>:<sec>
+	for (size_t i = 0; i < size+countExistingLogs; i++)
+	{
+		bool hasLoged = WriteLog(allLogs[i], ofs);
+		if (!hasLoged)
+		{
+			return false;
+		}
+	}
+	ofs.close();
+	return true;
 }
 
-bool writeLogs(log* logs, size_t size, const char* filePath) {
-    // Сега това става лесно:
-    std::ofstream outFile(filePath);
-
-    if(!outFile.is_open())
-        return false;
-
-    for (size_t i = 0; i < size; i++)
-        writeLog(logs[i], outFile);
-    
-    outFile.close();
-    return true;
+bool ReadLog(login& log, std::ifstream& inFile)
+{
+	if (!inFile.is_open())
+	{
+		return false;
+	}
+	inFile.getline(log.name, 20);
+	inFile >> log.IpAddress.num;
+	inFile.ignore();
+	inFile >> log.timeOfLog.hour >> log.timeOfLog.minutes >> log.timeOfLog.seconds;
+	inFile.ignore();
+	return true;
 }
 
-void readDateTime(dateTime& dt, std::ifstream& inFile) {
-    inFile >> dt.hrs;
-    inFile.get();               // Пропусни ":"
-    inFile >> dt.min;
-    inFile.get();               // Пропусни ":"
-    inFile >> dt.sec;
+size_t GetCharCount(char symbol, const char* filePath)
+{
+	std::ifstream ifs(filePath);
+	if (!ifs.is_open())
+	{
+		return false;
+	}
+	size_t encounters = 0;
+	size_t currPosition = ifs.tellg();
+	while (true)
+	{
+		if (ifs.eof())
+		{
+			break;
+		}
+		char currSymbol = ifs.get();
+		if (currSymbol == symbol)
+		{
+			encounters++;
+		}
+	}
+	ifs.seekg(currPosition);
+	ifs.clear();
+	ifs.close();
+	return encounters + 1;
 }
 
-void readIP(ipAddress& ip, std::ifstream& inFile) {
-    int x = 0;
-
-    for (int i = 3; i >= 0; i--) {
-        // Когато записвахме ip адреса го записвахме като интове. Сега просто си го прочитаме обратно.
-        inFile >> x;                                    
-        ip.p[i] = (unsigned char)(x);                         
-        inFile.get();                                   // Пропусни "."
-    }
-
-    inFile.get();                                      // Пропускаме " "
+size_t logsCount(const char* filePath)
+{
+	return GetCharCount('\n', filePath) / 3;
 }
 
-void readLog(log& toRead, std::ifstream& inFile) {
-    // Следваме модела по който записахме лога
-    inFile >> toRead.name;
-    char c = inFile.get();
-    readIP(toRead.ipv4, inFile);
-    readDateTime(toRead.logTime, inFile);
-
-    inFile.get(); // Пропусни std::endl    
+size_t ReadLogs(login* logs, const char* filePath)
+{
+	size_t loginsCount = logsCount(filePath);
+	std::ifstream ifs(filePath);
+	if (!ifs.is_open())
+	{
+		return 0;
+	}
+	for (size_t i = 0; i < loginsCount; i++)
+	{
+		ReadLog(logs[i], ifs);
+	}
+	ifs.clear();
+	return loginsCount;
 }
 
-// Връща колко лога има в един файл. Всеки лог записва точно един път std::endl (символа за нов ред \n).
-// Има и по - лесен начин, но за него следващия път!
-size_t logCount(const char* filePath) {
-    size_t cnt = 0;
+IpAddressV4 ReadIpFromConsole()
+{
+	IpAddressV4 ip;
+	int currOctet;
+	for (size_t i = 0; i < 4; i++)
+	{
+		std::cin >> currOctet;
+		std::cin.ignore();
+		ip.octets[i] = currOctet;
+	}
+	return ip;
 
-    std::ifstream inFile(filePath);
-
-    if(!inFile.is_open())
-        return 0;
-    
-    char buff;
-
-    while(true) {
-        buff = inFile.get();
-
-        if(inFile.eof())
-            break;
-        
-        if(buff == '\n')
-            ++cnt;
-    }
-    return cnt;
 }
 
-// Тук заделяме памет!!! Ще е добре да си я изтрием!
-log* readLogs(size_t& size, const char* filePath) {
-    size = logCount(filePath);
-
-    if(size == 0)
-        return nullptr;
-
-    log* logs = new log[size];
-
-    // Отваряме поток 2 пъти един за да видим колко
-    // лога имаме и втори за да ги прочетем.
-    // Отново: това може да стане само с едно отваряне,
-    // но ще се разглежда следващия път.
-    std::ifstream inFile(filePath);
-
-    for (size_t i = 0; i < size; i++)
-        readLog(logs[i], inFile);
-    
-    return logs;
+logTime GetLogTimeFromConsole()
+{
+	logTime logTime;
+	std::cin >> logTime.hour;
+	std::cin.ignore();
+	std::cin >> logTime.minutes;
+	std::cin.ignore();
+	std::cin >> logTime.seconds;
+	std::cin.ignore();
+	return logTime;
 }
 
-bool initLog(log& toInit, const char* name, int ip, uint8_t hrs, uint8_t mins, uint8_t sec) {
-    if(strlen(name) > 16)
-        return false;              
-
-    if(hrs > 23 || mins > 59 || sec > 59)
-        return false;
-
-    strcpy(toInit.name, name);
-
-    toInit.ipv4.data = ip;
-    
-    toInit.logTime = {sec, mins, hrs};    
-    return true;
+login ReadLogFromConsole()
+{
+	login log;
+	std::cin.getline(log.name, 20);
+	log.IpAddress = ReadIpFromConsole();
+	log.timeOfLog = GetLogTimeFromConsole();
+	return log;
 }
 
-void printLog(const log& lg) {
-    std::cout << lg.name << " ";
-
-    for (int i = 3; i >= 1; i--)
-        std::cout << (unsigned)(lg.ipv4.p[i]) << ".";
-    
-    std::cout << (unsigned)(lg.ipv4.p[0]);
-
-    std::cout << " " << lg.logTime.hrs << ":" << lg.logTime.min << ":" << lg.logTime.sec << std::endl;    
+void PrintIP(IpAddressV4 ip)
+{
+	std::cout << (int)ip.octets[0] << "." << (int)ip.octets[1] << "."
+		<< (int)ip.octets[2] << "." << (int)ip.octets[3] << std::endl;
 }
 
-void printLogs(log* logs, size_t size) {
-    for (size_t i = 0; i < size; i++)
-        printLog(logs[i]);
+void PrintTimeOfLog(logTime time)
+{
+	std::cout << time.hour << ":" << time.minutes << ":" << time.seconds << std::endl;
 }
 
-int main() {
-    // Бързо примерче
-    log myLogs[5];
+void PrintLogs(const login* logs, size_t countLogs)
+{
+	for (size_t i = 0; i < countLogs; i++)
+	{
+		std::cout << i + 1 << ". " << logs[i].name << std::endl;
+		PrintIP(logs[i].IpAddress);
+		PrintTimeOfLog(logs[i].timeOfLog);
+	}
+}
 
-    // Тези големи числа всъщност кодират ip адреси
-    // https://www.browserling.com/tools/ip-to-dec
+int main()
+{
+	//from file
 
-    initLog(myLogs[0], "Yavor", 2130706433, 12, 14, 0);
-    initLog(myLogs[1], "Hristo", 3221290750, 14, 0, 2);
-    initLog(myLogs[2], "Nikola", 4294967295, 17, 0, 4);
-    initLog(myLogs[3], "Ivan", 3221291364, 1, 1, 0);
-    initLog(myLogs[4], "Alex", 3194224640, 2, 59, 59);
+	/*login* logs = new login[0];
+	size_t countLogs = ReadLogs(logs, "Logs.txt");
+	PrintLogs(logs, countLogs);*/
 
-    std::cout << "Sample logs: " << std::endl;
-    printLogs(myLogs, 5);
-    std::cout << std::endl;
+//example login file
+/*
+Dankata
+16777343
+12 30 15
+Gerganata
+16777343
+15 15 30
+Ivan Pauna
+36777343
+20 22 01
+*/
 
-    std::cout << "Writing logs..." << std::endl << std::endl;
-    writeLogs(myLogs, 5, "logs-database.txt");
-    
-    std::cout << "Logs written" << std::endl << "Creating a copy of the logs from the file..." << std::endl << std::endl;
-    
-    size_t size = 0;
-    log* copy = readLogs(size, "logs-database.txt");
-    std::cout << "Created copy from the file: " << std::endl << std::endl;
-    printLogs(copy, size);
+    //from console
+	login log = ReadLogFromConsole();
+	login* logsNew = new login[1]{log};
+	WriteLogs(logsNew ,1, "Logs.txt");
+	login* logs = new login[0];
+	int countLogs = ReadLogs(logs, "Logs.txt");
+	PrintLogs(logs, countLogs);
 
-    delete[] copy;
+//example input console
+/*
+Stoian Azmanov
+127.0.2.3
+12 34 45
+*/
 }
