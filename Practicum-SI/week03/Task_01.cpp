@@ -49,10 +49,10 @@ size_t examplesInFile(const char *filePath)
     return countArraysInFile;
 }
 
-Example searchedExample(std::ifstream &ifs, const char *pattern, size_t count)
+Example getSearchedExample(std::ifstream &ifs, const char *pattern, size_t count)
 {
     Example *examples = new Example[count];
-    ifs.read((char *)examples, count);
+    ifs.read((char *)examples, count * sizeof(Example));
     for (size_t i = 0; i < count; i++)
     {
         if (strcmp(examples[i].buff, pattern) == 0)
@@ -60,6 +60,7 @@ Example searchedExample(std::ifstream &ifs, const char *pattern, size_t count)
             return examples[i];
         }
     }
+    delete[] examples;
     return {-1, "err"};
 }
 
@@ -77,16 +78,11 @@ int main()
         return 0;
     }
     addExamplesToFile(ofs, examples, n);
+    std::ifstream ifs(fileName, std::ios::in | std::ios::binary | std::ios::app);
+    size_t countExamples = examplesInFile(fileName);
+    Example searchedExample = getSearchedExample(ifs, "abcsd", countExamples);
+    ifs.close();
     ofs.close();
     delete[] examples;
     return 0;
 }
-
-// която казва колко структури от тип Example
-// имаме записани във файл с име filePath.
-// която проверява дали във файл
-// filePath има структура с buff
-// стойност равна на pattern. Ако
-// има такава я връща. Ако няма такава
-// връща нова структура Example със стойности -1 и "err".
-// Ако има няколко структури отговарящи на това условие да се върне първата.
