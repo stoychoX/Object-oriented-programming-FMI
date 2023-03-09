@@ -101,5 +101,6 @@ int main() {
         std::cout << std::endl << std::endl;
     }
     
-    delete[] areas, arr;
+    delete[] areas;
+    delete[] arr;
 }
