@@ -52,7 +52,7 @@ size_t examplesInFile(const char *filePath)
 Example getSearchedExample(std::ifstream &ifs, const char *pattern, size_t count)
 {
     Example *examples = new Example[count];
-    ifs.read((char *)examples, count * sizeof(Example));
+    ifs.read((char *)examples, count);
     for (size_t i = 0; i < count; i++)
     {
         if (strcmp(examples[i].buff, pattern) == 0)
