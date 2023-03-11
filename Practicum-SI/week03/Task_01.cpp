@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstring>
 #pragma warning(disable : 4996);
 
 struct Example
@@ -8,7 +9,7 @@ struct Example
     char buff[8];
 };
 
-Example *examples(int n)
+Example *readExamples(int n)
 {
     Example *examples = new Example[n];
     for (size_t i = 0; i < n; i++)
@@ -34,30 +35,27 @@ size_t getFileSize(std::ifstream &ifs)
     return fileSize;
 }
 
-size_t examplesInFile(const char *filePath)
+size_t examplesInFile(std::ifstream &ifs)
 {
-    std::ifstream ifs(filePath, std::ios::in | std::ios::binary);
     if (!ifs.is_open())
     {
         std::cout << "Error while opening file";
         return 0;
     }
-    size_t fileSize = getFileSize(ifs);
-    // брои колко структури има във файла
-    size_t countArraysInFile = fileSize / sizeof(Example);
-    ifs.close();
-    return countArraysInFile;
+    return getFileSize(ifs) / sizeof(Example);
 }
 
 Example getSearchedExample(std::ifstream &ifs, const char *pattern, size_t count)
 {
     Example *examples = new Example[count];
-    ifs.read((char *)examples, count);
+    ifs.read((char *)examples, count * sizeof(Example));
     for (size_t i = 0; i < count; i++)
     {
         if (strcmp(examples[i].buff, pattern) == 0)
         {
-            return examples[i];
+            Example result = examples[i];
+            delete[] examples;
+            return result;
         }
     }
     delete[] examples;
@@ -68,8 +66,8 @@ int main()
 {
     int n;
     std::cin >> n;
-    Example *examples = new Example[n];
     char fileName[1024];
+    std::cin.ignore();
     std::cin.getline(fileName, 1024);
     std::ofstream ofs(fileName, std::ios::out | std::ios::binary | std::ios::app);
     if (!ofs.is_open())
@@ -77,12 +75,18 @@ int main()
         std::cout << "Error while opening file";
         return 0;
     }
+
+    Example *examples = readExamples(n);
     addExamplesToFile(ofs, examples, n);
-    std::ifstream ifs(fileName, std::ios::in | std::ios::binary | std::ios::app);
-    size_t countExamples = examplesInFile(fileName);
-    Example searchedExample = getSearchedExample(ifs, "abcsd", countExamples);
-    ifs.close();
     ofs.close();
+    std::ifstream ifs(fileName, std::ios::in | std::ios::binary);
+    size_t countExamples = examplesInFile(ifs);
+    char toSearch[1024];
+    std::cin.ignore();
+    std::cin.getline(toSearch, 1024);
+    Example searchedExample = getSearchedExample(ifs, toSearch, countExamples);
+    std::cout << searchedExample.buff << " " << searchedExample.data;
+    ifs.close();
     delete[] examples;
     return 0;
 }

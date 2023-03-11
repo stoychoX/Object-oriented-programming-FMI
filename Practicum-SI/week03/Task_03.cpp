@@ -39,16 +39,18 @@ size_t getFileSize(std::ifstream &ifs)
     ifs.seekg(currentPos);
     return fileSize;
 }
+
 Company *getJobOffersFromFile(std::ifstream &ifs, size_t countOffersFromFile)
 {
     size_t currentPos = ifs.tellg();
+    ifs.seekg(0, std::ios::beg);
     Company *jobOffersFromFile = new Company[countOffersFromFile];
-    ifs.read((char *)jobOffersFromFile, countOffersFromFile);
+    ifs.read((char *)jobOffersFromFile, countOffersFromFile * sizeof(Company));
     ifs.seekg(currentPos);
     return jobOffersFromFile;
 }
 
-void filterOffer(const char *filePath, size_t minSalary)
+void readData(const char *filePath, Company *&jobOffersFromFile, size_t &countOffersInFile)
 {
     std::ifstream ifs(filePath, std::ios::in | std::ios::binary);
     if (!ifs.is_open())
@@ -58,6 +60,14 @@ void filterOffer(const char *filePath, size_t minSalary)
     }
     size_t countOffersInFile = getFileSize(ifs) / sizeof(Company);
     Company *jobOffersFromFile = getJobOffersFromFile(ifs, countOffersInFile);
+    ifs.close();
+}
+
+void filterOffer(const char *filePath, size_t minSalary)
+{
+    size_t countOffersInFile;
+    Company *jobOffersFromFile;
+    readData(filePath, jobOffersFromFile, countOffersInFile);
     for (size_t i = 0; i < countOffersInFile; i++)
     {
         if (jobOffersFromFile[i].salary > minSalary)
@@ -65,29 +75,27 @@ void filterOffer(const char *filePath, size_t minSalary)
             std::cout << "Name of the company: " << jobOffersFromFile[i].companyName << std::endl;
             std::cout << "The number of programmers in that company is:: " << jobOffersFromFile[i].countProgrammers << std::endl;
             std::cout << "The number of days with paid leave is: " << jobOffersFromFile[i].countDays << std::endl;
-            std::cout << "The salary the employees in this company receive is: " << jobOffersFromFile[i].salary;
+            std::cout << "The salary the employees in this company receive is: " << jobOffersFromFile[i].salary << std::endl;
         }
     }
     delete[] jobOffersFromFile;
-    ifs.close();
 }
 
 bool findOffer(const char *filePath, const char *name)
 {
-    std::ifstream ifs(filePath, std::ios::in | std::ios::binary);
-
-    if (!ifs.is_open())
-    {
-        std::cout << "Error while opening file!";
-        return;
-    }
-    size_t countOffersInFile = getFileSize(ifs) / sizeof(Company);
-    Company *jobOffersFromFile = getJobOffersFromFile(ifs, countOffersInFile);
-    ifs.close();
+    size_t countOffersInFile;
+    Company *jobOffersFromFile;
+    readData(filePath, jobOffersFromFile, countOffersInFile);
     for (size_t i = 0; i < countOffersInFile; i++)
     {
-        return (strcmp(jobOffersFromFile[i].companyName, name) == 0);
+        if (strcmp(jobOffersFromFile[i].companyName, name) == 0)
+        {
+            delete[] jobOffersFromFile;
+            return true;
+        }
     }
+
+    delete[] jobOffersFromFile;
     return false;
 }
 
@@ -99,11 +107,12 @@ int main()
         std::cout << "Error while opening file!";
         return 0;
     }
+    
     size_t n;
     Company *jobOffers = getJobOffers(n);
     saveOffersToFile(ofs, jobOffers, n);
     filterOffer("joboffers.txt", 2000);
-    if (findOffer)
+    if (findOffer("joboffers.txt", "hirethebest"))
     {
         std::cout << "Job offer exists.";
     }
