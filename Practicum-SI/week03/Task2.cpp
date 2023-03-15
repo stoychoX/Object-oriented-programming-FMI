@@ -15,7 +15,7 @@ size_t getFileSize(std::ifstream& ifs)
     ifs.seekg(currentPosition);
     return fileSize;
 }
-size_t examplesInFile(std::ifstream& ifs, const char* filePath)
+size_t examplesInFile(std::ifstream& ifs)
 {
 
     if (!ifs.is_open())
@@ -26,7 +26,7 @@ size_t examplesInFile(std::ifstream& ifs, const char* filePath)
 
     return examplesInFile;
 }
-Example FindExampleWithPatternBuff(std::ifstream& ifs, const char* fileName, const char* pattern)
+Example FindExampleWithPatternBuff(std::ifstream& ifs, const char* pattern)
 {
     Example errorExample{ -1,"IFS_ERR" };
     if (!ifs.is_open())
@@ -62,4 +62,5 @@ int main()
     std::cout << std::endl;
     Example example = FindExampleWithPatternBuff(ifs, fileName, pattern);
     std::cout << example.data << " " << example.buff << std::endl;
+    ifs.close();
 }
