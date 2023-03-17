@@ -63,7 +63,7 @@ public:
 		return 3600 * hrs + 60 * mins + seconds;
 	}
 
-	Time timeUntilMidnight() {
+	Time timeUntilMidnight() const {
 		unsigned midNight = 24 * 60 * 60;
 
 		unsigned timeLeft = midNight - getUnixTime();
