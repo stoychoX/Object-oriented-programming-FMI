@@ -119,7 +119,57 @@ public:
 			this->points = 0;
 		}
 	}
+	void print() const {
+		std::cout << "Task: " << this->taskCondition << ", "
+			<< "password: " << this->password << ", "
+			<< "points: " << this->points << ", "
+			<< "failed logins: " << this->countFailedLogins << std::endl;
+	}
+    char* getTask(const char* passwd) {
+		if (strcmp(this->password, passwd) == 0) {
+			return this->taskCondition;
+		}
+		this->countFailedLogins++;
+		return nullptr;
+	}
+	int getLoginFails() const {
+		return this->countFailedLogins;
+	}
+	void setPassword(const char* newPasswd, const char* oldPasswd) {
+		if (strcmp(this->password, oldPasswd) == 0) {
+			if (strlen(newPasswd) == TaskConsts::LEN_PASSWORD - 1) {
+				strcpy_s(this->password, TaskConsts::LEN_PASSWORD, newPasswd);
+			}
+			else {
+				std::cout << "Old password is correct, but the new password isn't 9 chars long"
+					<< std::endl;
+			}
+			return;
+		}
+		std::cout << "You didn't enter the old pasword correctly" << std::endl;
+	}
+	void setTask(const char* task, const char* passwd) {
+		if (strcmp(this->password, passwd) == 0) {
+			strcpy_s(this->taskCondition, TaskConsts::MAX_LEN_TASK_NAME, task);
+		}
+		else {
+			std::cout << "You entered incorrect password" << std::endl;
+		}
+	}
 };
 int main() {
-	
+	char password[] = "password1";
+	char passNew[] = "password";
+	char task[] = "Make a class Person with age, name and ID. ";
+	char taskNew[] = "Make two classes.";
+	Task t(task, password, 1);
+	t.print();
+	t.setPassword(passNew, password);
+	t.setTask(taskNew, passNew);
+	t.print();
+	char * arr = t.getTask(passNew);
+	if(arr != nullptr)
+		std::cout << arr << std::endl;
+	t.print();
+	std::cout << t.getLoginFails();
 }
