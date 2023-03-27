@@ -74,7 +74,7 @@ void ProductDatabase::print() const {
 
 void ProductDatabase::cleanupDatabase() {
     for (size_t i = 0; i < size; i++) {
-        if(products[i].getQuantity() == 0) {
+        while(products[i].getQuantity() == 0 && size > 0) {
             std::swap(products[i], products[size - 1]);
             size--;
         }
