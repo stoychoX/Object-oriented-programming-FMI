@@ -6,9 +6,9 @@
 
 MessageQueue:
 *  `MessageQueue(const char*, mode::open)`      Отваря съществуващ файл от който се четат или пишат съобщения.
-*  `MessageQueue(const char*, mode::creat)`     Създава файл от който се четат или пишат съобщения.
+*  `MessageQueue(const char*, mode::create)`     Създава файл от който се четат или пишат съобщения.
 *  `void open(const char*, mode::open)`         Аналогично на конструктора.
-*  `void open(const char*, mode::creat)`        Аналогично на конструктора.
+*  `void open(const char*, mode::create)`        Аналогично на конструктора.
 *  `size_t read(const char* msg)`               Прочита съобщение от опашката. Връща колко байта е големината на съобщението.
 *  `void write(const char* msg, size_t size)`   Записва съобщение в опашката.
 *  `void sync()`                                Зарежда най - новите промени от файла.
