@@ -2,7 +2,7 @@
 #include"StringPool.h"
 
 int main() {
-	StringPool str(100);
+	StringPool str(5);
 
 	str.insert("A");
 	str.insert("A");

@@ -1,5 +1,5 @@
 #pragma once
-
+#include<cstddef> // size_t
 class Random {
 private:
 	static Random instance;
