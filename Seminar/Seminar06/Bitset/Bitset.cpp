@@ -15,6 +15,11 @@ size_t Bitset::getMask(size_t number) const {
     return mask;
 }
 
+void Bitset::erase() {
+    for (size_t i = 0; i < getBucketCount(); i++)
+        data[i] = 0;    
+}
+
 size_t Bitset::getBucket(size_t number) const {
     return number / 8;
 }
