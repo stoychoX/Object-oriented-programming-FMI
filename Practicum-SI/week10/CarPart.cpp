@@ -73,3 +73,8 @@ unsigned CarPart::getId() const
 {
 	return id;
 }
+void CarPart::printInfo() const
+{
+	std::cout << '<' << getId() << "> by " << getProdName() << " - "
+		<< getDesc() << " - ";
+}

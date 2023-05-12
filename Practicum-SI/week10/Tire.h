@@ -1,5 +1,6 @@
 #pragma once
 #include "CarPart.h"
+#include <iostream>
 
 class Tire : public CarPart
 {
@@ -16,5 +17,5 @@ public:
 	unsigned getWidht() const;
 	unsigned getProf() const;
 	unsigned getDiam() const;
-
+	friend std::ostream& operator<<(std::ostream& os, Tire& acc);
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "CarPart.h"
+#include <iostream>
 
 class Engine : public CarPart
 {
@@ -10,4 +11,5 @@ public:
 
 	void setHorsePwr(unsigned _horsePwr);
 	unsigned getHorsePwr() const;
+	friend std::ostream& operator<<(std::ostream& os, Engine& acc);
 };

@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "CarPart.h"
 
 class Accumulator : public CarPart
@@ -18,4 +19,5 @@ public:
 
 	unsigned getCap() const;
 	const char* getBattId() const;
+	friend std::ostream& operator<<(std::ostream& os, Accumulator& acc);
 };

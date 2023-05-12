@@ -43,3 +43,9 @@ unsigned Tire::getDiam() const
 {
 	return diamInch;
 }
+std::ostream& operator<<(std::ostream& os, Tire& t)
+{
+	t.printInfo();
+	std::cout << t.getWidht() << '/' << t.getProf() << 'R'
+		<< t.getDiam() << std::endl;
+}

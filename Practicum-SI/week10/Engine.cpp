@@ -13,3 +13,8 @@ unsigned Engine::getHorsePwr() const
 {
 	return horsePwr;
 }
+std::ostream& operator<<(std::ostream& os, Engine& en)
+{
+	en.printInfo();
+	std::cout << en.getHorsePwr() << " hp" << std::endl;
+}

@@ -52,3 +52,8 @@ const char* Accumulator::getBattId() const
 {
 	return batteryId;
 }
+std::ostream& operator<<(std::ostream& os, Accumulator& acc)
+{
+	acc.printInfo();
+	std::cout << acc.getCap() << " Ah" << std::endl;
+}
