@@ -36,12 +36,27 @@ IntervalCollection::IntervalCollection(const IntervalCollection& other)
 	copyFrom(other);
 }
 
+IntervalCollection::IntervalCollection(IntervalCollection&& other)
+{
+	moveFrom(std::move(other));
+}
+
 IntervalCollection& IntervalCollection::operator=(const IntervalCollection& other)
 {
 	if (this != &other) 
 	{
 		free();
 		copyFrom(other);
+	}
+	return *this;
+}
+
+IntervalCollection& IntervalCollection::operator=(IntervalCollection&& other)
+{
+	if (this != &other) 
+	{
+		free();
+		moveFrom(std::move(other));
 	}
 	return *this;
 }
@@ -96,6 +111,14 @@ bool IntervalCollection::contains(int elem) const
 {
 	return count(elem) > 0;
 }
+
+void IntervalCollection::moveFrom(IntervalCollection&& other) 
+{
+	this->data = other.data;
+	other.data = nullptr;
+
+	other.start = other.end = 0;
+} 
 
 IntervalCollection::~IntervalCollection()
 {

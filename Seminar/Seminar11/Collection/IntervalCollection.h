@@ -9,12 +9,15 @@ private:
 	size_t end;
 	void free();
 	void copyFrom(const IntervalCollection&);
-
+	void moveFrom(IntervalCollection&& other);
 public:
 	IntervalCollection(size_t start, size_t end);
 
 	IntervalCollection(const IntervalCollection&);
+	IntervalCollection(IntervalCollection&&);
+
 	IntervalCollection& operator=(const IntervalCollection&);
+	IntervalCollection& operator=(IntervalCollection&&);
 
 	unsigned intervalLength() const;
 
