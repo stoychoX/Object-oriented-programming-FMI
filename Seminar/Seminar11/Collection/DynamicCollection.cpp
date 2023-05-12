@@ -46,7 +46,8 @@ DynamicCollection::DynamicCollection(const DynamicCollection& other)
 
 DynamicCollection& DynamicCollection::operator=(const DynamicCollection& other)
 {
-	if (this != &other) {
+	if (this != &other) 
+	{
 		free();
 		copyFrom(other);
 	}

@@ -3,7 +3,8 @@
 
 void NormalCollection::add(int elem)
 {
-	if (size == capacity) {
+	if (size == capacity) 
+	{
 		resize(2 * size);
 	}
 

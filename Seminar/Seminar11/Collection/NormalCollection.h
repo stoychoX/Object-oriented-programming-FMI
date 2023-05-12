@@ -4,7 +4,6 @@
 class NormalCollection : public DynamicCollection
 {
 public:
-
 	void add(int) override;
 	void remove(int) override;
 	unsigned count(int) const override;

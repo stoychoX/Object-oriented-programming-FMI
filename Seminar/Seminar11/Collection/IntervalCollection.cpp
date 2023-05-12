@@ -38,7 +38,8 @@ IntervalCollection::IntervalCollection(const IntervalCollection& other)
 
 IntervalCollection& IntervalCollection::operator=(const IntervalCollection& other)
 {
-	if (this != &other) {
+	if (this != &other) 
+	{
 		free();
 		copyFrom(other);
 	}
