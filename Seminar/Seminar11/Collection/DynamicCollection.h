@@ -11,13 +11,17 @@ protected:
 
 	void free();
 	void copyFrom(const DynamicCollection& other);
+	void moveFrom(DynamicCollection&&);
 
 	void resize(size_t);
 public:
 	DynamicCollection();
 
 	DynamicCollection(const DynamicCollection& other);
+	DynamicCollection(DynamicCollection&& other);
+
 	DynamicCollection& operator=(const DynamicCollection& other);
+	DynamicCollection& operator=(DynamicCollection&& other);
 	
 	~DynamicCollection();
 };
