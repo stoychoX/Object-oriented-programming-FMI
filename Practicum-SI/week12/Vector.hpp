@@ -8,7 +8,9 @@ class Vector
 	size_t size;
 	void copyFrom(const Vector& other)
 	{
-		data(other.size);
+		data = new T[other.capacity];
+		size = other.size;
+		capacity = other.capacity;
 		for (size_t i = 0; i < size; i++)
 		{
 			data[i] = other.data[i];
