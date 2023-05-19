@@ -101,15 +101,15 @@ public:
 	{
 		return data[ind];
 	}
-	bool empty() const
+	bool isEmpty() const
 	{
 		return size == 0;
 	}
-	size_t size() const
+	size_t getSize() const
 	{
 		return size;
 	}
-	size_t capacity() const
+	size_t getCapacity() const
 	{
 		return capacity;
 	}
