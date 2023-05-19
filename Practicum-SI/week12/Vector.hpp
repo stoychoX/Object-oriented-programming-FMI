@@ -58,7 +58,7 @@ void Vector<T>::resize() {
 	for (size_t i = 0; i < this->capacity; i++) {
 		temp[i] = this->data[i];
 	}
-	
+
 	delete[] this->data;
 	this->data = temp;
 	this->capacity *= 2;
