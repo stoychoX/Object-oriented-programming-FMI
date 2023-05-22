@@ -40,8 +40,11 @@ vector<T>::vector() {
 }
 
 template <typename T>
-vector<T>::vector(size_t n, const T& elem): vector(n)
+vector<T>::vector(size_t n, const T& elem)
 {
+	this->size = n;
+	this->capacity = n;
+	this->data = new T[n];
 	for (int i = 0; i < size; i++) {
 		this->data[i] = elem;
 	}
