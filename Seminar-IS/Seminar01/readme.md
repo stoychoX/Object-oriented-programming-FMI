@@ -138,7 +138,7 @@ int main() {
 ```cpp
 #include<cstring>
 
-Person createPerson(char fName[16], char lName[16], unsigned short age) {
+Person createPerson(const char fName[16], const char lName[16], unsigned short age) {
     Person toReturn;
 
     strcpy(toReturn.firstName, fName);
