@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-void getWords(const char* sourcePath, const char* destinationPath)
+void printFormatted(const char* sourcePath, const char* destinationPath)
 {
     std::ifstream inFile(sourcePath);
     std::ofstream outFile(destinationPath);
@@ -9,6 +9,9 @@ void getWords(const char* sourcePath, const char* destinationPath)
     if(!inFile.is_open())
         return;
     
+    if(!outFile.is_open())
+        return;
+
     char buff[64] = {};
 
     while (true)
@@ -19,12 +22,12 @@ void getWords(const char* sourcePath, const char* destinationPath)
     
         if(inFile.eof())
             break;
-        else 
-            outFile << ",";
+        
+        outFile << ",";
     }
 }
 
 int main()
 {
-    printFormatted("test-file.txt");
+    printFormatted("test-file.txt", "formatted-file.txt");
 }

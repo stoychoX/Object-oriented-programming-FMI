@@ -9,6 +9,9 @@ void copyFile(const char* sourcePath, const char* destinationPath)
     if(!inFile.is_open())
         return;
 
+    if(!outFile.is_open())
+        return;
+    
     while(true)
     {
         char currentChar = inFile.get();
@@ -20,26 +23,7 @@ void copyFile(const char* sourcePath, const char* destinationPath)
     }
 }
 
-void copyFileSecond(const char* sourcePath, const char* destinationPath)
-{
-    std::ofstream outFile(destinationPath);
-    std::ifstream inFile(sourcePath);
-
-    if(!inFile.is_open())
-        return;
-
-    char buff[1024] = {};
-
-    while(true)
-    {
-        inFile.getline(buff, 1024);
-        outFile << buff << '\n';
-        if(inFile.eof())
-            break;
-    }
-}
-
 int main()
 {
-    copyFileSecond("copyFile.cpp", "test.cpp");
+    copyFile("copyFile.cpp", "test.cpp");
 }
