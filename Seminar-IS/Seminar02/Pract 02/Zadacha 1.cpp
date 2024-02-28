@@ -18,7 +18,7 @@ void read()
 	std::cout << sum - product;
 }
 
-void zapis(int a, int b, int c)
+void write(int a, int b, int c)
 {
 	std::ofstream outFile("zapis.txt");
 
@@ -26,15 +26,15 @@ void zapis(int a, int b, int c)
 		std::cout << "Can't open file";
 
 	int sum = a + b + c;
-	int product = a*b*c;
-	
+	int product = a * b * c;
+
 	outFile << sum << " " << product;
 
 	outFile.close();
-	read();
 }
 
 int main()
 {
-	zapis(4, 5, 6);
+	write(4, 5, 6);
+	read();
 }
