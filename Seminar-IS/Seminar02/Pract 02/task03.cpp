@@ -16,7 +16,7 @@ enum class Tyres {
 
 const size_t MAX_NAME_LENGTH = 65;
 const size_t MAX_TYRE_LENGTH = 10;
-const size_t MAX_CELL_SIZE = 70;
+const size_t MAX_ROW_SIZE = 70;
 
 struct Bolid {
     double tyreWearCoefficient;
@@ -116,17 +116,24 @@ void saveToCSV(Bolid* bolids, size_t size){
 }
 
 void readFromCSV(){
-    char* cell = new char[MAX_CELL_SIZE];
     ifstream inFile("result.csv");
-    if(inFile.is_open()){
+    if(!inFile.is_open()){
         return;    
     }
 
-    getline(inFile, cell, ',');
+    char* row = new char[MAX_ROW_SIZE];
+    inFile.getline(row, MAX_ROW_SIZE);
     while(!inFile.eof()){
-        cout << cell;
-        getline(inFile, cell, ',');
+        for(size_t i=0;i<strlen(row);i++){
+            if(row[i] == ','){
+                row[i] = '\n';            
+            }        
+        }
+        cout << row;
+        inFile.getline(row, MAX_ROW_SIZE);
     }
+    delete[] row;
+    inFile.close();
 }
 
 int main()
