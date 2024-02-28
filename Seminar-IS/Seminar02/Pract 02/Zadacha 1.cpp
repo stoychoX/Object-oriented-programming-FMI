@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-void read()
+void readFromFile()
 {
 	std::ifstream inFile("zapis.txt");
 	if (!inFile.is_open())
@@ -18,7 +18,7 @@ void read()
 	std::cout << sum - product;
 }
 
-void write(int a, int b, int c)
+void writeToFile(int a, int b, int c)
 {
 	std::ofstream outFile("zapis.txt");
 
@@ -35,6 +35,6 @@ void write(int a, int b, int c)
 
 int main()
 {
-	write(4, 5, 6);
-	read();
+	writeToFile(4, 5, 6);
+	readFromFile();
 }
