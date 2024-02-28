@@ -22,6 +22,7 @@ void saveNumbersToFile() {
     }
     outFile << sum << " " << product;
     outFile.close();
+    delete[] nums;
 }
 
 void readNumbersFromFile() {
