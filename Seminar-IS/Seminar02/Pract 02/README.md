@@ -13,12 +13,14 @@
 
 Пример: <br> <br>
 
-<pre>
 **input.txt:** <br>
+<pre>
 bar foo fmi   oop,<br>
 abcd   pqsl  fffd,
+</pre>
 
 **input.txt:** <br>
+<pre>
 Bar-Foo-Fmi---Oop,<br>
 Abcd---Pqsl--Fffd,
 </pre>
