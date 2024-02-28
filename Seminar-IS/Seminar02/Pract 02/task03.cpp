@@ -33,31 +33,19 @@ void readTyres(Tyres& tyres) {
     if (strcmp(type, "Soft") == 0) {
         tyres = Tyres::Soft;
     }
-    if (strcmp(type, "Medium") == 0) {
+    else if (strcmp(type, "Medium") == 0) {
         tyres = Tyres::Medium;
     }
-    if (strcmp(type, "Hard") == 0) {
+    else if (strcmp(type, "Hard") == 0) {
         tyres = Tyres::Hard;
     }
-    if (strcmp(type, "Intern") == 0) {
+    else if (strcmp(type, "Intern") == 0) {
         tyres = Tyres::Intern;
     }
-    if (strcmp(type, "Wet") == 0) {
+    else if (strcmp(type, "Wet") == 0) {
         tyres = Tyres::Wet;
     }
     delete[] type;
-}
-
-void readBolid(Bolid& bolid, ifstream& stream) {
-    stream.getline(bolid.name, MAX_NAME_LENGTH);
-    stream >> bolid.yearOfManafacture;
-    //cin.ignore();
-    readTyres(bolid.tyres);
-    stream >> bolid.tyreWearCoefficient;
-    bolid.inRepairStation = stream.get()=='1';
-    //stream.ignore();
-    stream >> bolid.maxLoops;
-    //stream.ignore();
 }
 
 void readBolid(Bolid& bolid) {
@@ -100,8 +88,6 @@ void sortBolids(Bolid* bolids, const size_t size) {
     }
     delete[] indexes;
 }
-
-
 
 void saveToCSV(Bolid* bolids, size_t size){
     ofstream outFile("result.csv");
