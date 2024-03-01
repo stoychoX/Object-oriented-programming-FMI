@@ -3,8 +3,10 @@
 
 using namespace std;
 
+const char FILE_NAME[] = "result.txt";
+
 void readSourceCode() {
-    ifstream inFile("result.txt");
+    ifstream inFile(FILE_NAME);
     if (!inFile.is_open()) {
         return;
     }
@@ -14,7 +16,7 @@ void readSourceCode() {
     size_t digits = 0;
     size_t other = 0;
     char symbol = inFile.get();
-
+    
     while (!inFile.eof()) {
         if (symbol >= 'a' && symbol <= 'z') {
             small_letters++;

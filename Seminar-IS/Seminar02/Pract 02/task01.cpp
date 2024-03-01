@@ -3,8 +3,10 @@
 
 using namespace std;
 
+const char FILE_NAME[] = "result.txt";
+
 void saveNumbersToFile() {
-    int* nums = new int[3];
+    int nums[3];
     for (size_t i = 0; i < 3; i++) {
         cin >> nums[i];
     }
@@ -16,18 +18,17 @@ void saveNumbersToFile() {
         product *= nums[i];
     }
 
-    ofstream outFile("result.txt");
+    ofstream outFile(FILE_NAME);
     if (!outFile.is_open()) {
         return;
     }
     outFile << sum << " " << product;
     outFile.close();
-    delete[] nums;
 }
 
 void readNumbersFromFile() {
     int num;
-    ifstream inFile("result.txt");
+    ifstream inFile(FILE_NAME);
     if (!inFile.is_open()) {
         return;
     }

@@ -17,6 +17,7 @@ enum class Tyres {
 const size_t MAX_NAME_LENGTH = 65;
 const size_t MAX_TYRE_LENGTH = 10;
 const size_t MAX_ROW_SIZE = 70;
+const char FILE_NAME[] = "result.csv";
 
 struct Bolid {
     double tyreWearCoefficient;
@@ -28,24 +29,36 @@ struct Bolid {
 };
 
 void readTyres(Tyres& tyres) {
-    char* type = new char[MAX_TYRE_LENGTH];
+    char type[MAX_TYRE_LENGTH];
     cin.getline(type, MAX_TYRE_LENGTH);
     if (strcmp(type, "Soft") == 0) {
         tyres = Tyres::Soft;
     }
-    else if (strcmp(type, "Medium") == 0) {
+    if (strcmp(type, "Medium") == 0) {
         tyres = Tyres::Medium;
     }
-    else if (strcmp(type, "Hard") == 0) {
+    if (strcmp(type, "Hard") == 0) {
         tyres = Tyres::Hard;
     }
-    else if (strcmp(type, "Intern") == 0) {
+    if (strcmp(type, "Intern") == 0) {
         tyres = Tyres::Intern;
     }
-    else if (strcmp(type, "Wet") == 0) {
+    if (strcmp(type, "Wet") == 0) {
         tyres = Tyres::Wet;
     }
     delete[] type;
+}
+
+void readBolid(Bolid& bolid, ifstream& stream) {
+    stream.getline(bolid.name, MAX_NAME_LENGTH);
+    stream >> bolid.yearOfManafacture;
+    //cin.ignore();
+    readTyres(bolid.tyres);
+    stream >> bolid.tyreWearCoefficient;
+    bolid.inRepairStation = stream.get()=='1';
+    //stream.ignore();
+    stream >> bolid.maxLoops;
+    //stream.ignore();
 }
 
 void readBolid(Bolid& bolid) {
@@ -71,10 +84,6 @@ size_t calcMaxLoops(const Bolid& bolid) {
 }
 
 void sortBolids(Bolid* bolids, const size_t size) {
-    size_t* indexes = new size_t[size];
-    for (size_t i = 0; i < size; i++) {
-        indexes[i] = i;
-    }
     for (size_t i = 0; i < size; i++) {
         size_t min_index = i;
         for (size_t j = i + 1; j < size; j++) {
@@ -86,11 +95,12 @@ void sortBolids(Bolid* bolids, const size_t size) {
         bolids[i] = bolids[min_index];
         bolids[min_index] = temp;
     }
-    delete[] indexes;
 }
 
+
+
 void saveToCSV(Bolid* bolids, size_t size){
-    ofstream outFile("result.csv");
+    ofstream outFile(FILE_NAME);
     if(!outFile.is_open()){
         return;    
     }
@@ -102,7 +112,7 @@ void saveToCSV(Bolid* bolids, size_t size){
 }
 
 void readFromCSV(){
-    ifstream inFile("result.csv");
+    ifstream inFile(FILE_NAME);
     if(!inFile.is_open()){
         return;    
     }
@@ -110,7 +120,8 @@ void readFromCSV(){
     char* row = new char[MAX_ROW_SIZE];
     inFile.getline(row, MAX_ROW_SIZE);
     while(!inFile.eof()){
-        for(size_t i=0;i<strlen(row);i++){
+        size_t rowLength = strlen(row);
+        for(size_t i=0;i<rowLength;i++){
             if(row[i] == ','){
                 row[i] = '\n';            
             }        
