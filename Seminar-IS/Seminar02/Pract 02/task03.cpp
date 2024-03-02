@@ -34,31 +34,18 @@ void readTyres(Tyres& tyres) {
     if (strcmp(type, "Soft") == 0) {
         tyres = Tyres::Soft;
     }
-    if (strcmp(type, "Medium") == 0) {
+    else if (strcmp(type, "Medium") == 0) {
         tyres = Tyres::Medium;
     }
-    if (strcmp(type, "Hard") == 0) {
+    else if (strcmp(type, "Hard") == 0) {
         tyres = Tyres::Hard;
     }
-    if (strcmp(type, "Intern") == 0) {
+    else if (strcmp(type, "Intern") == 0) {
         tyres = Tyres::Intern;
     }
-    if (strcmp(type, "Wet") == 0) {
+    else if (strcmp(type, "Wet") == 0) {
         tyres = Tyres::Wet;
     }
-    delete[] type;
-}
-
-void readBolid(Bolid& bolid, ifstream& stream) {
-    stream.getline(bolid.name, MAX_NAME_LENGTH);
-    stream >> bolid.yearOfManafacture;
-    //cin.ignore();
-    readTyres(bolid.tyres);
-    stream >> bolid.tyreWearCoefficient;
-    bolid.inRepairStation = stream.get()=='1';
-    //stream.ignore();
-    stream >> bolid.maxLoops;
-    //stream.ignore();
 }
 
 void readBolid(Bolid& bolid) {
@@ -83,6 +70,12 @@ size_t calcMaxLoops(const Bolid& bolid) {
     return bolid.maxLoops * bolid.tyreWearCoefficient;
 }
 
+void swapBolids(Bolid* bolids, const size_t index1, const size_t index2){
+    Bolid temp = bolids[index1];
+    bolids[index1] = bolids[index2];
+    bolids[index2] = temp;
+}
+
 void sortBolids(Bolid* bolids, const size_t size) {
     for (size_t i = 0; i < size; i++) {
         size_t min_index = i;
@@ -91,13 +84,30 @@ void sortBolids(Bolid* bolids, const size_t size) {
                 min_index = j;
             }
         }
-        Bolid temp = bolids[i];
-        bolids[i] = bolids[min_index];
-        bolids[min_index] = temp;
+        if(min_index != i){
+            swapBolids(bolids, i, min_index);
+        }
     }
 }
 
-
+char* returnTyres (const Tyres tyres){
+    if(tyres == Tyres::Soft){
+        return (char*)"Soft";
+    }
+    else if(tyres == Tyres::Medium){
+        return (char*)"Medium";
+    }
+    else if(tyres == Tyres::Hard){
+        return (char*)"Hard";
+    }
+    else if(tyres == Tyres::Intern){
+        return (char*)"Intern";
+    }
+    else if(tyres == Tyres::Wet){
+        return (char*)"Wet";
+    }
+    return (char*)"Unknown";
+}
 
 void saveToCSV(Bolid* bolids, size_t size){
     ofstream outFile(FILE_NAME);
@@ -106,9 +116,18 @@ void saveToCSV(Bolid* bolids, size_t size){
     }
     sortBolids(bolids, size);
     for(size_t i=0;i<size;i++){
-        outFile << bolids[i].name << "," << bolids[i].yearOfManafacture  << "," << (int)bolids[i].tyres << "," << bolids[i].tyreWearCoefficient << "," << bolids[i].inRepairStation << "," << bolids[i].maxLoops << '\n';
+        outFile << bolids[i].name << "," << bolids[i].yearOfManafacture  << "," << returnTyres(bolids[i].tyres) << "," << bolids[i].tyreWearCoefficient << "," << bolids[i].inRepairStation << "," << bolids[i].maxLoops << '\n';
     }
     outFile.close();
+}
+
+void parseRow(char*& row){
+    size_t rowLength = strlen(row);
+    for(size_t i=0;i<rowLength;i++){
+        if(row[i] == ','){
+            row[i] = '\n';            
+        }        
+    }
 }
 
 void readFromCSV(){
@@ -120,12 +139,7 @@ void readFromCSV(){
     char* row = new char[MAX_ROW_SIZE];
     inFile.getline(row, MAX_ROW_SIZE);
     while(!inFile.eof()){
-        size_t rowLength = strlen(row);
-        for(size_t i=0;i<rowLength;i++){
-            if(row[i] == ','){
-                row[i] = '\n';            
-            }        
-        }
+        parseRow(row);
         cout << row;
         inFile.getline(row, MAX_ROW_SIZE);
     }
