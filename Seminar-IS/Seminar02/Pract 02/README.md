@@ -66,13 +66,13 @@ cout << “Enter bolid name”; cout << “Enter production year”; // нену
 **input.txt:** <br>
 <pre>
 bar foo fmi   oop,<br>
-abcd   pqsl  fffd,
+abcd   pqsl  fffd   pract,
 </pre>
 
 **input.txt:** <br>
 <pre>
 Bar-Foo-Fmi---Oop,<br>
-Abcd---Pqsl--Fffd,
+Abcd---Pqsl--Fffd---Pract,
 </pre>
  
 <h1>Задача 5</h1>
