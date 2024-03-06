@@ -69,7 +69,7 @@ bar foo fmi   oop,<br>
 abcd   pqsl  fkpd   pract,
 </pre>
 
-**input.txt:** <br>
+**output.txt:** <br>
 <pre>
 Bar-Foo-Fmi---Oop,<br>
 Abcd---Pqsl--Fkpd---Pract,
