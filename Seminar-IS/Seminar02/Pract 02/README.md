@@ -66,13 +66,13 @@ cout << “Enter bolid name”; cout << “Enter production year”; // нену
 **input.txt:** <br>
 <pre>
 bar foo fmi   oop,<br>
-abcd   pqsl  fffd   pract,
+abcd   pqsl  fkpd   pract,
 </pre>
 
 **input.txt:** <br>
 <pre>
 Bar-Foo-Fmi---Oop,<br>
-Abcd---Pqsl--Fffd---Pract,
+Abcd---Pqsl--Fkpd---Pract,
 </pre>
  
 <h1>Задача 5</h1>
@@ -94,3 +94,16 @@ Abcd---Pqsl--Fffd---Pract,
 
 <img src="Screenshot_1.jpg" alt="Girl in a jacket" width="600" height="150">
 
+<h1>Задача 6</h1>
+
+Напишете програма, която реализира Шифър на Цезър. Прочетете едно число от клавиатурата - shiftKey.
+
+Реализирайте функционалност, която
+- прочита текст от конзолата, криптира го и записва ключа и кодираното съобщение във файла "encrypted.txt".
+- прочита от файла ключа и криптираното съобщение, декриптира го и го записва във файла "decrypted.txt".
+
+**Шифър на Цезър:** ASCII стойността на един символ се отмества с толкова на брой позиции, колкото е стойността на shiftKey.
+
+Пример: shiftKey = 5: <br>
+a(97) + 5 = f(102) <br>
+K(75) + 5 = P(80)
