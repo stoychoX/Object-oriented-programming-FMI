@@ -13,10 +13,10 @@
 
 Вход (конзола): 
 ```
-app "bar"
-app "foo"
-app "fmi"
-app 3 "oop"
+app bar
+app foo
+app fmi
+app 3 oop
 ```
 <br>
 Изход (файл):<br>
