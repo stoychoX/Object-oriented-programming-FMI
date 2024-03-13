@@ -45,7 +45,7 @@ baroopfmi
 
 Вход (конзола):
 ```
-"oop fmi bar foo" 56 78
+"oop fmi bar foo" 56 72
 ```
 
 Двоичен файл:
