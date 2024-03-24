@@ -1,4 +1,4 @@
-#include "EventCollection.h"
+#include "EventManager.h"
 #include <utility>
 #include <cstring>
 #include <assert.h>

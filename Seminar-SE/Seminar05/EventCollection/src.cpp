@@ -1,4 +1,4 @@
-#include "EventCollection.h"
+#include "EventManager/EventManager.h"
 #include <iostream>
 
 int main()

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Date.h"
-#include "Time.h"
+#include "../Date/Date.h"
+#include "../Time/Time.h"
 
 typedef BulgarianDate Date;
 
