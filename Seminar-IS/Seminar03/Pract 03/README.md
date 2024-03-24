@@ -52,7 +52,7 @@ baroopfmi
 
 Двоичен файл:
 ```
-56 oop fmi bar foo 72
+56oopfmibarfoo72
 ```
 
 Изход (конзола):
