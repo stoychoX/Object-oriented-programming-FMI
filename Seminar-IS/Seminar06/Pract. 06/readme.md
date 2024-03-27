@@ -106,8 +106,7 @@ int main() {
 ```
 Важно: Генерираният от компилатора копиращ конструктор не работи правилно в случаите, когато в класа имаме динамична памет и няма да използваме агрегация.
 
-TODO: copy constructor with composition
-няма нужда от писане на копиращ констурктор и равно със статични масиви(memcpy)
+TODO: няма нужда от писане на копиращ констурктор и равно със статични масиви(memcpy)
 
 ## Copy assignment operator
 Компилаторът ще генерира copy assignment operator, ако няма user-defined copy assignment operator
@@ -148,6 +147,7 @@ public:
 	}
 	Test& operator=(const Test& other) {
 		std::cout << "operator=\n";
+		return *this;
 	}
 	int getFirst() const {
 		return first;
@@ -170,8 +170,6 @@ int main() {
 }
 ```
 Важно: Генерираният от компилатора орепатор= работи правилно в случаите, когато в класа нямаме динамична памет или ще използваме агрегация.
-
-TODO: operator= with composition
 
 В следващия пример копиращият конструктор не е ефективен, защото първо ще се извикат default-конструкторите на user-defined класовете и след това се извиква copy assignment operator за всеки от тях. Освен това ние не желаем това поведение. Копиращият конструктор трябва да разчита на копиращите конструктори на своите композирани данни.
 ```c++
@@ -286,10 +284,111 @@ int main() {
 }
 ```
 
+```c++
+#include <iostream>
+
+class A {
+	int a;
+public:
+	A() {
+		std::cout << "Default Constructor of A\n";
+	}
+	A(const A& other) {
+		std::cout << "Copy constructor of A\n";
+	}
+	A& operator=(const A& other) {
+		std::cout << "Operator= of A\n";
+		return *this;
+	}
+};
+
+class B {
+	int b;
+public:
+	B() {
+		std::cout << "Default constructor of B\n";
+	}
+	B(const B& other) {
+		std::cout << "Copy constructor of B\n";
+	}
+	B& operator=(const B& other) {
+		std::cout << "Operator= of B\n";
+		return *this;
+	}
+};
+
+class C {
+	A a;
+	B b;
+public:
+	C() {
+		std::cout << "Default Constructor of C\n";
+	}
+	C(const C& other) : a(other.a), b(other.b) {
+		std::cout << "Copy constructor of C\n";
+	}
+	//you have to explicitly call a and b operator=
+	// otherwise nothing will be called
+	C& operator=(const C& other) {
+		//a=other.a;
+		//b=other.b;
+		std::cout << "Operator= of C\n";
+		return *this;
+	}
+};
+
+int main() {
+
+	C c1, c2;
+	std::cout << std::endl;
+	c2 = c1;
+
+	return 0;
+}
+```
 
 ## Задача на лист
+<!-- ### Задача 1
+Какво ще се изведе на конзолата след изпълнението на следния код?
+```c++
+struct T {
+	T() {
+		std::cout << "Default constructor\n";
+	}
+	T(const T& other) {
+		std::cout << "Copy constructor\n";
+	}
+	T& operator=(const T& other) {
+		std::cout << "Operator=\n";
+		return *this;
+	}
+	~T() {
+		std::cout << "Destructor\n";
+	}
+};
+int main() {
+	T obj1;
+	{
+		T obj2;
+		obj2 = obj1;
+	}
+	T obj3(obj1);
 
+	return 0;
+}
 
+### Задача 2
+Реализирайте клас за студент, който има:
+* Име(символен низ с произволна дължина)
+* ФН( цяло число в интервала [0,2^32 -1])
+* Средна оценка от следването(число с плаваща запетая)
+
+Реализирайте следните функционалности:
+* записва един студент в двоичен файл
+* прочита един такъв студент от двоичен файл
+* записва масив от студенти в двоичен файл
+* прочита масив от студенти от двоичен файл
+-->
 ## Задача 1: Ю-Ги-О! 
 Сето Кайба организира турнир по **Ю-Ги-О!**, но е съкратил бюджета в компютърния отдел и помолил нас да организираме базата данни с всички дуелисти в турнира.<br />
 Трябва да реализирате 2 класа Ю-Ги-О! карти: <br />
