@@ -173,9 +173,118 @@ int main() {
 
 TODO: operator= with composition
 
+В следващия пример копиращият конструктор не е ефективен, защото първо ще се извикат default-конструкторите на user-defined класовете и след това се извиква copy assignment operator за всеки от тях. Освен това ние не желаем това поведение. Копиращият конструктор трябва да разчита на копиращите конструктори на своите композирани данни.
+```c++
+#include <iostream>
 
+class A {
+	int a;
+public:
+	A() {
+		std::cout << "Default Constructor of A\n";
+	}
+	A(const A& other) {
+		std::cout << "Copy constructor of A\n";
+	}
+	A& operator=(const A& other) {
+		std::cout << "Operator= of A\n";
+		return *this;
+	}
+};
 
+class B {
+	int b;
+public:
+	B() {
+		std::cout << "Default constructor of B\n";
+	}
+	B(const B& other) {
+		std::cout << "Copy constructor of B\n";
+	}
+	B& operator=(const B& other) {
+		std::cout << "Operator= of B\n";
+		return *this;
+	}
+};
 
+class C {
+	A a;
+	B b;
+public:
+	C() {
+		std::cout << "Default Constructor of C\n";
+	}
+	C(const C& other) { // тук преди скобата се извикват default constructors на А и B
+		a = other.a;  // copy assignment operator of A
+		b = other.b;  // copy assignment operator of B
+		std::cout << "Copy constructor of C\n";
+	}
+};
+
+int main() {
+
+	C c1;
+	std::cout << std::endl;
+	C c2(c1);
+
+	return 0;
+}
+```
+Правилен вариант:
+```c++
+#include <iostream>
+
+class A {
+	int a;
+public:
+	A() {
+		std::cout << "Default Constructor of A\n";
+	}
+	A(const A& other) {
+		std::cout << "Copy constructor of A\n";
+	}
+	A& operator=(const A& other) {
+		std::cout << "Operator= of A\n";
+		return *this;
+	}
+};
+
+class B {
+	int b;
+public:
+	B() {
+		std::cout << "Default constructor of B\n";
+	}
+	B(const B& other) {
+		std::cout << "Copy constructor of B\n";
+	}
+	B& operator=(const B& other) {
+		std::cout << "Operator= of B\n";
+		return *this;
+	}
+};
+
+class C {
+	A a;
+	B b;
+public:
+	C() {
+		std::cout << "Default Constructor of C\n";
+	}
+	C(const C& other) : a(other.a), b(other.b) { //извикват се копиращи конструктори на A, B
+		std::cout << "Copy constructor of C\n";
+	}
+};
+
+int main() {
+
+	C c1;
+	std::cout << std::endl;
+	C c2(c1);
+
+	return 0;
+}
+```
 
 
 ## Задача на лист
