@@ -8,7 +8,7 @@
 * operator= - `( a = b )`
 * operator() - `( a(parameter) | a.operator()(parameter))`
 * opearotr[] - `( a[parameter] | a.operator[](parameter))`
-* Arrow operator - `( a->b )`
+* Arrow operator - `( a->b )` винаги трябва да връща указател!
 
 ## Задача 1: 
 Реализирайте клас Vector, който ще се използва за работа с математически вектор. Предефинирайте оператори със следната функционалност:
