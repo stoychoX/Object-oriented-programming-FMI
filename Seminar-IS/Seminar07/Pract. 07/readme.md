@@ -7,7 +7,7 @@
 ## Оператори, които задължително трябва да са член-функции
 * operator= - `( a = b )`
 * operator() - `( a(parameter) | a.operator()(parameter))`
-* opearotr[] - `( a[parameter] | a.operator[](parameter))`
+* operator[] - `( a[parameter] | a.operator[](parameter))`
 * Arrow operator - `( a->b )` винаги трябва да връща указател!
 
 ## Задача 1: 
