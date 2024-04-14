@@ -20,11 +20,10 @@ void StringPool::resize(size_t cap)
 	capacity = cap;
 }
 
-int StringPool::lowerBound(const char* str, bool& found) const
+int StringPool::find(const char* str, bool& found) const
 {
 	int left = 0;
 	int right = size - 1;
-	int leftmostIndex = -1;
 
 	while (left <= right)
 	{
@@ -43,12 +42,11 @@ int StringPool::lowerBound(const char* str, bool& found) const
 		else
 		{
 			left = mid + 1;
-			leftmostIndex = mid;
 		}
 	}
 
 	found = false;
-	return leftmostIndex;
+	return left;
 }
 
 const char* StringPool::insert(const char* str, size_t index)
@@ -97,7 +95,7 @@ StringPool::StringPool() : nodes(nullptr), size(0), capacity(0) {
 const char* StringPool::getString(const char* str)
 {
 	bool found = false;
-	int currentIndex = lowerBound(str, found);
+	int currentIndex = find(str, found);
 	
 	if (found)
 	{
@@ -105,13 +103,13 @@ const char* StringPool::getString(const char* str)
 		return nodes[currentIndex].data;
 	}
 
-	return insert(str, currentIndex + 1);
+	return insert(str, currentIndex);
 }
 
 void StringPool::removeString(const char* str)
 {
 	bool found = false;
-	int idx = lowerBound(str, found);
+	int idx = find(str, found);
 	
 	if (!found)
 		return;

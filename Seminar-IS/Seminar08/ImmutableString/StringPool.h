@@ -18,7 +18,7 @@ private:
 
 	void resize(size_t cap);
 
-	int lowerBound(const char* str, bool& found) const;
+	int find(const char* str, bool& found) const;
 	const char* insert(const char* str, size_t index);
 	
 	void removeInternal(int idx);
