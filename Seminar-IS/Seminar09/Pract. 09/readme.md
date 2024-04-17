@@ -41,7 +41,7 @@
  - `shrinkToFit()` - изчиства неизползваемата памет. След извикването `size == capcity`
  - `clear()` - изтрива всички числа от колекцията. Заделената памет не се изтрива.
  - `insert(element, index=0)` - добавя число на позиция `index`. Ако `index > size`, то да се добави в края. Ако не е указано кой е `index-a`, то той е 0
- - `insertRange(MyVector, index=0)` или `insertRange(const int*, int size, index=0)` - вмъква колекция от елементи на съответния `index`.Ако `index >= size`, то да се добави в края.  Ако не е указано кой е `index-a`, то той е 0
+ - `insertRange(MyVector, index=0)` или `insertRange(const int*, int size, index=0)` - вмъква колекция от елементи на съответния `index`. Ако `index >= size`, то да се добави в края.  Ако не е указано кой е `index-a`, то той е 0
  - `erase(element, allOccurences=false)` - изтрива първото срещане на елемента. Ако за втори параметър се подаде `true`, се изтриват всички срещания
  - `resize(newCount)` или  `resize(newCount, value)` - променя САМО броя на елементите. Ако `newCount==count`, функцията не прави нищо. Ако `newCount<count` - броят на елементите в колкцията се намаля до `newCount`. Ако `newCount>count` - броят на елементите в колкцията се увеличава до `newCount`. Новите елементи имат стойност `value`. Ако `value` не е подадено, се задават с `default-ната` им стойност
 
