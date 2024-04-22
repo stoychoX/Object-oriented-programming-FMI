@@ -9,16 +9,19 @@ private:
 
 	void free();
 	void copyFrom(const String& other);
+	void move(String&& other);
 public:
 	String();
 	String(const char* text);
 	String(const String& other);
+	String(String&& other);
 
 	char operator[](size_t index) const;
 	char& operator[](size_t index);
 
 	String& operator+=(const String& other);
 	String& operator=(const String& other);
+	String& operator=(String&& other);
 
 	const char* c_str() const;
 

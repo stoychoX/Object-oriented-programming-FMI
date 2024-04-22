@@ -20,7 +20,7 @@ void StudentCollection::copyFrom(const StudentCollection& other)
 	{
 		if (other.data[i] != nullptr)
 		{
-			*data[i] = *other.data[i];
+			data[i] = new Student(*other.data[i]);
 		}
 	}
 }
@@ -48,7 +48,7 @@ void StudentCollection::resize(size_t newCap)
 	capacity = newCap;
 }
 
-size_t StudentCollection::getLastFreeIndex() const
+size_t StudentCollection::getFirstFreeIndex() const
 {
 	for (size_t i = 0; i < capacity; i++)
 	{
@@ -112,7 +112,7 @@ void StudentCollection::pushAt(size_t idx, Student&& other)
 
 void StudentCollection::push(const Student& student)
 {
-	size_t index = getLastFreeIndex();
+	size_t index = getFirstFreeIndex();
 	if (index == capacity)
 		resize(capacity + capacity / 2);
 	pushAt(index, student);
@@ -120,7 +120,7 @@ void StudentCollection::push(const Student& student)
 
 void StudentCollection::push(Student&& student)
 {
-	size_t index = getLastFreeIndex();
+	size_t index = getFirstFreeIndex();
 	if (index == capacity)
 		resize(capacity + capacity / 2);
 	pushAt(index, std::move(student));
@@ -159,7 +159,6 @@ size_t StudentCollection::getCapacity() const
 {
     return capacity;
 }
-
 
 StudentCollection& StudentCollection::operator=(StudentCollection&& other) noexcept
 {

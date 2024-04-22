@@ -1,5 +1,5 @@
 #include "String.h"
-#pragma warning (disable:4996)
+#pragma warning(disable : 4996)
 #include <cstring>
 #include <cassert>
 
@@ -9,7 +9,7 @@ void String::free()
 	size = 0;
 }
 
-void String::copyFrom(const String& other)
+void String::copyFrom(const String &other)
 {
 	data = new char[other.size + 1];
 	strcpy(data, other.data);
@@ -18,16 +18,21 @@ void String::copyFrom(const String& other)
 
 String::String() : String("") {}
 
-String::String(const char* text)
+String::String(const char *text)
 {
 	size = strlen(text);
 	data = new char[size + 1];
 	strcpy(data, text);
 }
 
-String::String(const String& other)
+String::String(const String &other)
 {
 	copyFrom(other);
+}
+
+String::String(String &&other)
+{
+	move(std::move(other));
 }
 
 char String::operator[](size_t index) const
@@ -36,16 +41,35 @@ char String::operator[](size_t index) const
 	return data[index];
 }
 
-char& String::operator[](size_t index)
+char &String::operator[](size_t index)
 {
 	assert(index <= size);
 	return data[index];
 }
 
-String& String::operator+=(const String& other)
+void String::move(String &&other)
+{
+	data = other.data;
+	other.data = nullptr;
+
+	size = other.size;
+	other.size = 0;
+}
+
+String &String::operator=(String &&other)
+{
+	if (this != &other)
+	{
+		free();
+		move(std::move(other));
+	}
+	return *this;
+}
+
+String &String::operator+=(const String &other)
 {
 	size = size + other.size;
-	char* newData = new char[size + 1];
+	char *newData = new char[size + 1];
 	strcpy(newData, data);
 	strcat(newData, other.data);
 
@@ -55,7 +79,7 @@ String& String::operator+=(const String& other)
 	return *this;
 }
 
-String& String::operator=(const String& other)
+String &String::operator=(const String &other)
 {
 	if (this != &other)
 	{
@@ -65,7 +89,7 @@ String& String::operator=(const String& other)
 	return *this;
 }
 
-const char* String::c_str() const
+const char *String::c_str() const
 {
 	return data;
 }
@@ -85,22 +109,22 @@ String::~String()
 	free();
 }
 
-bool operator==(const String& lhs, const String& rhs)
+bool operator==(const String &lhs, const String &rhs)
 {
 	return strcmp(lhs.c_str(), rhs.c_str()) == 0;
 }
 
-bool operator!=(const String& lhs, const String& rhs)
+bool operator!=(const String &lhs, const String &rhs)
 {
 	return !(lhs == rhs);
 }
 
-std::ostream& operator<<(std::ostream& os, const String& str)
+std::ostream &operator<<(std::ostream &os, const String &str)
 {
 	return os << str.c_str();
 }
 
-String operator+(const String& lhs, const String& rhs)
+String operator+(const String &lhs, const String &rhs)
 {
 	String str(lhs);
 	str += rhs;

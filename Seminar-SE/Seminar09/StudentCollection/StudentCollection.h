@@ -14,7 +14,7 @@ private:
 
 	void resize(size_t newCap);
 
-	size_t getLastFreeIndex() const;
+	size_t getFirstFreeIndex() const;
 public:
 	StudentCollection();
 
