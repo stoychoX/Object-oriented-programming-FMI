@@ -5,10 +5,10 @@
 * `( sizeof )`
 
 ## Оператори, които задължително трябва да са член-функции
-* operator= - `( a = b )`
-* operator() - `( a(parameter) | a.operator()(parameter))`
-* operator[] - `( a[parameter] | a.operator[](parameter))`
-* Arrow operator - `( a->b )` винаги трябва да връща указател!
+* operator= `( a = b )`
+* operator() `( a(parameter) или a.operator()(parameter))`
+* operator[] `( a[parameter] или a.operator[](parameter))`
+* Arrow operator `( a->b )` винаги трябва да връща указател!
 
 ## Задача 1: 
 Реализирайте клас NVector, който ще се използва за работа с математически вектор. Предефинирайте оператори със следната функционалност:
