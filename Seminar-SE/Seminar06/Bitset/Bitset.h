@@ -14,8 +14,7 @@ private:
 	size_t getBucket(size_t n) const;
 	size_t getPosition(size_t n) const;
 public:
-    // Maybe empty set?
-	Bitset() = delete;
+	Bitset();
 	Bitset(size_t n);
 
 	void addNumber(size_t number);
@@ -28,9 +27,8 @@ public:
 	Bitset(const Bitset&);
 	Bitset& operator=(const Bitset&);
 
-	// Those two might be friend? Next time!
-	Bitset Union(const Bitset& other) const;
-    Bitset Intersect(const Bitset& other) const;
+	friend Bitset Union(const Bitset& lhs, const Bitset& rhs);
+    friend Bitset Intersect(const Bitset& lhs, const Bitset& rhs);
 
 	~Bitset();
 };

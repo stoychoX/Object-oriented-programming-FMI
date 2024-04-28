@@ -16,10 +16,10 @@ int main()
 	powersOfTwo.print();
 	even.print();
 
-	Bitset evenPowerUnion = powersOfTwo.Union(even);
+	Bitset evenPowerUnion = Union(even, powersOfTwo);
 	evenPowerUnion.print();
 
-	Bitset evenPowerIntersect = powersOfTwo.Intersect(even);
+	Bitset evenPowerIntersect = Intersect(even, powersOfTwo);
 	evenPowerIntersect.print();
 
 	powersOfTwo.removeNumber(1);

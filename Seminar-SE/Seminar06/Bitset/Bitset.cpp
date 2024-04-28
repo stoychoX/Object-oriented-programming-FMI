@@ -7,6 +7,8 @@ void Bitset::free()
 	delete[] data;
 }
 
+Bitset::Bitset() : Bitset(8) {}
+
 void Bitset::copyFrom(const Bitset& other)
 {
 	data = new char[other.bucketsCount];
@@ -101,17 +103,17 @@ Bitset& Bitset::operator=(const Bitset& other)
 	return *this;
 }
 
-Bitset Bitset::Union(const Bitset& other) const
+Bitset Union(const Bitset& lhs, const Bitset& rhs)
 {
-	size_t maxBucketsUsed = std::max(bucketsCount, other.bucketsCount);
-	size_t minBucketsUsed = std::min(bucketsCount, other.bucketsCount);
+	size_t maxBucketsUsed = std::max(lhs.bucketsCount, rhs.bucketsCount);
+	size_t minBucketsUsed = std::min(lhs.bucketsCount, rhs.bucketsCount);
 
-	const Bitset& bigger = (limit > other.limit) ? *this : other;
+	const Bitset& bigger = (lhs.limit > rhs.limit) ? lhs : rhs;
 
 	Bitset toReturn(bigger.limit);
 
 	for (size_t i = 0; i < minBucketsUsed; i++)
-		toReturn.data[i] = (data[i] | other.data[i]);
+		toReturn.data[i] = (lhs.data[i] | rhs.data[i]);
 
 	for (size_t i = minBucketsUsed; i < maxBucketsUsed; i++)
 		toReturn.data[i] = bigger.data[i];
@@ -119,15 +121,15 @@ Bitset Bitset::Union(const Bitset& other) const
 	return toReturn;
 }
 
-Bitset Bitset::Intersect(const Bitset& other) const
+Bitset Intersect(const Bitset& lhs, const Bitset& rhs)
 {
-    size_t intersectLimit = (limit < other.limit) ? limit : other.limit;
-    size_t intersectBuckets = (limit < other.limit) ? bucketsCount : other.bucketsCount;
+    size_t intersectLimit = (lhs.limit < rhs.limit) ? lhs.limit : rhs.limit;
+    size_t intersectBuckets = (lhs.limit < rhs.limit) ? lhs.bucketsCount : rhs.bucketsCount;
 
     Bitset toReturn(intersectLimit);
 
     for (size_t i = 0; i < intersectBuckets; i++)
-        toReturn.data[i] = (data[i] & other.data[i]);
+        toReturn.data[i] = (lhs.data[i] & rhs.data[i]);
 
     toReturn.limit = intersectLimit;
     toReturn.bucketsCount = intersectBuckets;
