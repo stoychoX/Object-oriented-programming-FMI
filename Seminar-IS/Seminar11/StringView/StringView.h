@@ -5,7 +5,7 @@ class StringView
 {
 private:
 	const char* begin;
-	const char* end; // One element efter the last element
+	const char* end; // One element after the last element
 public:
 	StringView(const char* str);
 	StringView(const char* begin, const char* end);
