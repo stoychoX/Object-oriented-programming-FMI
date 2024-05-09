@@ -10,7 +10,7 @@ namespace {
 Vector::Vector() : Vector(INITIAL_CAPACITY) { }
 
 Vector::Vector(size_t capacity) : capacity(capacity) {
-	data = new Test[capacity];
+	data = new int[capacity];
 }
 
 Vector::Vector(const Vector& other) {
@@ -63,7 +63,7 @@ void Vector::downsizeIfNeeded() {
 
 void Vector::resize(size_t newCapacity) {
 	capacity = newCapacity;
-	Test* temp = new Test[capacity];
+	int* temp = new int[capacity];
 	
 	// Note: the std::vector allocates ONLY MORE than the current capacity
 	if (size > newCapacity) {
@@ -86,17 +86,12 @@ size_t Vector::getCapacity() const {
 	return capacity;
 }
 
-void Vector::pushBack(const Test& element) {
+void Vector::pushBack(int element) {
 	upsizeIfNeeded();
 	data[size++] = element;
 }
 
-void Vector::pushBack(Test&& element) {
-	upsizeIfNeeded();
-	data[size++] = std::move(element);
-}
-
-void Vector::pushAt(const Test& element, size_t index) {
+void Vector::pushAt(int element, size_t index) {
 	assertIndex(index);
 	upsizeIfNeeded();
 
@@ -105,18 +100,6 @@ void Vector::pushAt(const Test& element, size_t index) {
 	}
 
 	data[index] = element;
-	size++;
-}
-
-void Vector::pushAt(Test&& element, size_t index) {
-	assertIndex(index);
-	upsizeIfNeeded();
-
-	for (size_t i = size; i > index; i--) {
-		data[i] = std::move(data[i - 1]);
-	}
-
-	data[index] = std::move(element);
 	size++;
 }
 
@@ -135,7 +118,7 @@ Test Vector::popAt(size_t index) {
 	// Note: the actual std::vector does NOT lower its capacity on this function
 	downsizeIfNeeded();
 
-	Test temp = data[index];
+	int temp = data[index];
 	size--;
 	for (size_t i = index; i < size; i++) {
 		data[i] = std::move(data[i + 1]);
@@ -156,13 +139,13 @@ void Vector::shrinkToFit() {
 	resize(size);
 }
 
-Test& Vector::operator[](size_t index) {
+int& Vector::operator[](size_t index) {
 	assertIndex(index);
 
 	return data[index];
 }
 
-const Test& Vector::operator[](size_t index) const {
+const int& Vector::operator[](size_t index) const {
 	assertIndex(index);
 
 	return data[index];
@@ -180,7 +163,7 @@ void Vector::move(Vector&& other) {
 void Vector::copyFrom(const Vector& other) {
 	size = other.size;
 	capacity = other.capacity;
-	data = new Test[capacity];
+	data = new int[capacity];
 
 	for (size_t i = 0; i < other.size; i++) {
 		data[i] = other.data[i];
