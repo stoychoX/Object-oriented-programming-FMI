@@ -1,14 +1,14 @@
 #pragma once
 #include "Set.h"
-#include <vector>
+#include "Vector.h"
 
 class FiniteSet : public Set
 {
 private:
-	std::vector<int> setNumbers;
+	Vector setNumbers;
 
 public:
-	FiniteSet(const std::vector<int>& setNumbers);
+	FiniteSet(const Vector& setNumbers);
 	bool operator[](int element) const override;
 	void print(std::ostream& stream) const override;
 };
