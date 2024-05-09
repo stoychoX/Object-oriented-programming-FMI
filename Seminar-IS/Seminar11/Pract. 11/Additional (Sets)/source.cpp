@@ -199,5 +199,7 @@ int main()
 		set->print(std::cout);
 
 		std::cout << set->operator[](20);
+
+  delete set;
 	}
 }
