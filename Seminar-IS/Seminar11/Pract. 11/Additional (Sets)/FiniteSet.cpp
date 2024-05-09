@@ -1,6 +1,6 @@
 #include "FiniteSet.h"
 
-FiniteSet::FiniteSet(const std::vector<int>& inputNumbers)
+FiniteSet::FiniteSet(const Vector& inputNumbers)
 	:setNumbers(inputNumbers) {}
 
 bool FiniteSet::operator[](int element) const
