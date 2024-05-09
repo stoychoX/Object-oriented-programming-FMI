@@ -1,9 +1,9 @@
 #pragma once
-#include <vector>
+#include "Vector.h"
 
 struct Criteria
 {
-	bool operator()(const std::vector<int>& setNumbers, int element) const
+	bool operator()(const Vector& setNumbers, int element) const
 	{
 		for (size_t i = 0; i < setNumbers.size(); i++)
 		{
