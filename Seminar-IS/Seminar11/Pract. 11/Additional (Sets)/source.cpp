@@ -1,3 +1,11 @@
+/*
+
+CODE IS NOT FULLY OPTIMIZED
+
+THE GOAL IS TO SHOW THE IDEA FOR SOLVING THE TASK
+
+*/
+	
 #pragma once
 #include <fstream>
 #include <iostream>
