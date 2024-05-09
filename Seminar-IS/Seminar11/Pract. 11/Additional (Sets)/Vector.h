@@ -27,15 +27,15 @@ public:
 
 	void pushBack(int element);
 	void pushAt(int element, size_t index);
-	Test popBack();
-	Test popAt(size_t index);
+	int popBack();
+	int popAt(size_t index);
 
 	bool empty() const;
 	void clear();
 	void shrinkToFit();
 
-	Test& operator[](size_t index);
-	const Test& operator[](size_t index) const;
+	int& operator[](size_t index);
+	const int& operator[](size_t index) const;
 
 private:
 	void copyFrom(const Vector& other);
