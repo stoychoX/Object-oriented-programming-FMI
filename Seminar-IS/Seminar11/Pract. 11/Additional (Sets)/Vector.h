@@ -25,8 +25,8 @@ public:
 	size_t getSize() const;
 	size_t getCapacity() const;
 
-	void pushBack(const Test& element);
-	void pushAt(const Test& element, size_t index);
+	void pushBack(int element);
+	void pushAt(int element, size_t index);
 	Test popBack();
 	Test popAt(size_t index);
 
