@@ -1,6 +1,6 @@
 #include "CriteriaSet.h"
 
-CriteriaSet::CriteriaSet(const std::vector<int>& setNumbers, Criteria criteria)
+CriteriaSet::CriteriaSet(const Vector& setNumbers, Criteria criteria)
 	:criteria(criteria), setNumbers(setNumbers) {}
 
 bool CriteriaSet::operator[](int element) const
