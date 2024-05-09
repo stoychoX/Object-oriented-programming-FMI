@@ -200,6 +200,6 @@ int main()
 
 		std::cout << set->operator[](20);
 
-		   delete set;
+		 delete set;
 	}
 }
