@@ -5,10 +5,10 @@ class CriteriaSet : public Set
 {
 private:
 	Criteria criteria;
-	std::vector<int> setNumbers;
+	Vector setNumbers;
 
 public:
-	CriteriaSet(const std::vector<int>& setNumbers, Criteria criteria);
+	CriteriaSet(const Vector& setNumbers, Criteria criteria);
 	bool operator[](int element) const override;
 	void print(std::ostream& stream) const override;
 };
