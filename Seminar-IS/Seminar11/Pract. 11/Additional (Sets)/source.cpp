@@ -9,7 +9,7 @@
 
 Set* readFiniteSet(std::ifstream& reader, int elementsCount)
 {
-	std::vector<int> setNumbers;
+	Vector setNumbers;
 
 	for (size_t i = 0; i < elementsCount; i++)
 	{
@@ -38,7 +38,7 @@ Set* readIntervalSet(std::ifstream& reader, int elementsCount)
 
 Set* readCriteriaSet(std::ifstream& reader, int elementsCount)
 {
-	std::vector<int> setNumbers;
+	Vector setNumbers;
 
 	for (size_t i = 0; i < elementsCount; i++)
 	{
