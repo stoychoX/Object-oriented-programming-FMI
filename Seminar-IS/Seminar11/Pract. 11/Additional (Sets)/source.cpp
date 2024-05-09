@@ -159,20 +159,20 @@ int main()
 	}
 
 	{
-		std::ofstream bWritier("first.dat", std::ios::binary);
+		std::ofstream binaryWritier("first.dat", std::ios::binary);
 
 		int nums = 10;
-		bWritier.write((const char*)&nums, sizeof(int));
+		binaryWritier.write((const char*)&nums, sizeof(int));
 
 		uint8_t setInfo = 64;
-		bWritier.write((const char*)&setInfo, sizeof(uint8_t));
+		binaryWritier.write((const char*)&setInfo, sizeof(uint8_t));
 
 		for (size_t i = 1; i <= 10; i++)
 		{
-			bWritier.write((const char*)&i, sizeof(int));
+			binaryWritier.write((const char*)&i, sizeof(int));
 		}
 
-		bWritier.close();
+		binaryWritier.close();
 	}
 
 	{
@@ -200,6 +200,6 @@ int main()
 
 		std::cout << set->operator[](20);
 
-		 delete set;
+		delete set;
 	}
 }
