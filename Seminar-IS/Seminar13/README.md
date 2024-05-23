@@ -10,7 +10,7 @@
 ```c++
 int main()
 {
-	quene<int> q;
+	queue<int> q;
 	q.enqueue(3);
 	q.enqueue(5);
 	q.enqueue(10);
