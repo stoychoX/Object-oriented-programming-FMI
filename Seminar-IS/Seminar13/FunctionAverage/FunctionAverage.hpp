@@ -11,8 +11,8 @@ public:
         first(fOne),
         second(fTwo) {}
 
-    int average(int x) const
+    double average(int x) const
     {
-        return (first(x) + second(x)) / 2;
+        return (first(x) + second(x)) / 2.0;
     }
 };
