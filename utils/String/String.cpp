@@ -44,14 +44,14 @@ size_t String::length() const
 
 String& String::operator+=(char ch)
 {
-	if(size < capacity)
+	if(size < capacity - 1)
 	{
 		data[size++] = ch;
 		data[size] = '\0';
 		return *this;
 	}
 
-	resize(calculateCapacity(size));
+	resize(calculateCapacity(capacity));
 	assert(size < capacity);
 	*this += ch;
 	return *this;
