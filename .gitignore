@@ -35,3 +35,7 @@
 *.vscode
 *.yaml
 *.json
+
+# files used as examples
+.dat
+.txt
