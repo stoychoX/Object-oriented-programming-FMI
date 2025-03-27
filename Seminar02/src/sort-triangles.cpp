@@ -46,7 +46,7 @@ void printTriangle(const Triangle& t)
     std::cout << std::endl;
 }
 
-double findFace(const Triangle& t)
+double findArea(const Triangle& t)
 {
     double sideA = findDistance(t.p1, t.p2);
     double sideB = findDistance(t.p1, t.p3);
@@ -63,7 +63,7 @@ void sortTriangles(Triangle* triangles, unsigned n)
 
     for (size_t i = 0; i < n; i++)
     {
-        faces[i] = findFace(triangles[i]);
+        faces[i] = findArea(triangles[i]);
     }
 
     for (size_t i = 0; i < n - 1; i++)
